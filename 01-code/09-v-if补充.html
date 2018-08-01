@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue2.js"></script>
+</head>
+<body>
+    <!-- v-if 还可以用来作判断 -->
+    <div id="app">
+        <h1 v-if="a === 'A'">
+            A
+        </h1>
+        <h1 v-else-if="a === 'B'">
+            B
+        </h1>
+        <h1 v-else="a === 'C'">
+            C
+        </h1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                a: 'A'
+            }
+        })
+    </script>
+</body>
+</html>

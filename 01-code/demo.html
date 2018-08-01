@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue2.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ mesg }}</h1>
+        <button @click="change">点击改变</button>
+        <button @click="changeByArg('妖精')">传参</button>
+        <button @click="getEvent($event)">事件对象</button>
+        <!-- 事件修饰符 -->
+        <a href="#" @click.once='change'>跳转</a>
+
+        <!-- 键盘修饰符 -->
+        <input type="text" @keyup.13='submit'>
+        <input type="text" @keyup.enter='submit'>
+
+        <button @mouseover='handler($event)'>鼠标移动</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                mesg: '大师兄',
+            },
+            methods: {
+                change(){
+                    this.mesg = '师傅被'
+                },
+                changeByArg(arg){
+                    this.mesg = arg
+                },
+                getEvent(e){
+                    console.log(e);
+                    alert('捉走了')
+                },
+                submit(){
+                    alert('回车了')
+                },
+                handler(e){
+                    console.log(e);
+                    alert('鼠标移动到这里了')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
