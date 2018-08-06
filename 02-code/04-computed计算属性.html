@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue2.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model='one'>
+        <input type="text" v-model='two'>
+        <p>全部: {{ fn }}</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                one:'',
+                two:''
+            },
+            // 通过computed 关键字创建计算属性，他是一个对象
+            computed:{
+                // fn函数就是一个计算属性，它可以当作 属性 来使用
+                fn(){
+                    return this.one + this.two
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <father></father>
+    </div>
+    <script>
+        Vue.component('father', {
+            // son中的 myName 当作属性来用
+            // 监听属性: myName 获得 sName 中的值
+            template: '<div>父组件的儿子是{{sName}}<son :myName="sName"></son></div>',
+            data(){
+                return {
+                    sName:'小白'
+                }
+            },
+            components: {
+                son: {
+                    // props 是固定写法
+                    // 这是一个数组，里面的值是字符串，可以当作 属性
+                    props:['myName'], // 用来获得父组件传过来的值 ，即 '小白'
+
+                    template: '<p>子组件,我是{{myName}}</p>'
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

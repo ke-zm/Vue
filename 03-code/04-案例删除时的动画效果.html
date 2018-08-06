@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./animate.css">
+    <script src="../01-code/vue2.js"></script>
+    <style>
+        #app {
+            width: 600px;
+            margin: 10px auto;
+        }
+
+        .tb {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .tb th {
+            background-color: #0094ff;
+            color: white;
+        }
+
+        .tb td,
+        .tb th {
+            padding: 5px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .add {
+            padding: 5px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+        .box{
+            width: 120px;
+            text-align: center;
+            background: skyblue;
+            padding-bottom: 10px;
+            position: absolute;
+            top: 25%;
+            left: 45%;
+           
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="add">
+            编号:
+            <input v-model="nId"> 品牌名称:
+            <input v-model="nName">
+            <input type="button" value="添加" @click="add">
+        </div>
+
+        <div class="add">
+            品牌名称:
+            <input type="text" placeholder="请输入搜索条件" v-model="searchVal">
+        </div>
+
+        <div>
+            <table class="tb">
+                <tr>
+                    <th>编号</th>
+                    <th>品牌名称</th>
+                    <th>创立时间</th>
+                    <th>操作</th>
+                </tr>
+                <!-- 记得要加 key -->
+                <!-- v-show="flag" -->
+                <tr v-for="(item,index) in search" :key="index">
+                    <!-- <td>{{search}}</td> -->
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <td>
+                        <!-- 将 item.id 作为参数传入,直接传 index 不太好 -->
+                        <a href="#" @click="showBox(item.id,item)">删除</a>
+                        
+                    </td>
+                </tr>
+                <!-- 判断是否有数据 -->
+                <tr v-if="search.length === 0">
+                    <td colspan="4">没有品牌数据</td>
+                </tr>
+                <!-- 动态生成内容tr -->
+            </table>
+            <transition
+                enter-active-class="animated fadeInLeft"
+                leave-active-class="animated fadeOutRight"
+            >
+                <div class="box" v-if="flag">
+                    <h3>是否删除{{tId}}</h3>
+                    <button @click="confirmDel">确定</button>
+                    <button @click="cancelDel">取消</button>
+                </div>
+            </transition>
+        </div>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            nId: '',
+            nName: '',
+            flag: false,
+            list: [],
+            searchVal: '',
+            // 删除弹出框的数据
+            tId: '',
+            temp:''
+        },
+        methods: {
+            add() {
+                // this.flag=true;
+                // 这里可以用 trim() 去掉空格
+                if (!this.nId.trim() || !this.nName.trim()) {
+                    return;
+                }
+                this.list.push({
+                    id: this.nId,
+                    name: this.nName,
+                    ctime: new Date().toLocaleDateString()
+                })
+                console.log(this.list);
+            },
+            /* 删除方法 */
+            del(idd){
+                this.list.splice(idd , 1)
+            },
+            showBox(id,temp){
+                console.log(id,temp,11);
+                this.tId = id;
+                this.temp= temp;
+                this.flag = !this.flag;
+            },
+            // 确认删除
+            confirmDel(){
+                this.flag = false;
+                this.del(this.temp);
+            },
+            cancelDel(){
+                this.flag = false;
+            }
+          
+        },
+        // 用 computed 解决收索功能
+        computed:{
+            search(){
+                var arr = this.list.filter( item => {
+                    return item.name.toUpperCase().indexOf(this.searchVal.toUpperCase()) !== -1
+                })
+                return arr;
+                
+            }
+        }
+    })
+</script>
+
+
+</html>

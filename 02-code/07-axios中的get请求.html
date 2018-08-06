@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue2.js"></script>
+    <script src="./axios.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ mesg }}</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                mesg: ''
+            },
+            // 钩子函数
+            mounted: function () {
+                // 这里调用 node中 hero文件下的 服务器接口
+                axios.get('http://127.0.0.1:3000/api/vue')
+                // axios.get('http://027xin.com:8899/api/getprodlist')
+                    .then(res => {
+                        console.log(res);
+                        // axios中将数据封装到了data属性中
+                        console.log(res.data);
+                        this.mesg = res.data.message
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+
+        })
+    </script>
+</body>
+
+</html>

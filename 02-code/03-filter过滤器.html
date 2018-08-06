@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue2.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ ctime }}</p>
+        <p>{{ ctime | fTime }}</p>
+    </div>
+    <script>
+        Vue.filter('fTime', function(time, seprator){
+            // 连接符
+            seprator = seprator || '-'
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            return y+seprator+m+seprator+d
+        })
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                ctime: new Date()
+            }
+        })
+    </script>
+</body>
+</html>

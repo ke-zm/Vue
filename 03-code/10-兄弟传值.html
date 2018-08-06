@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <father></father>
+    </div>
+    <script>
+        // 创建一个空的vue 实例，作为 事件总线
+        var eventbus = new Vue()
+
+        Vue.component('father', {
+            // son中的 tellFather 是emit() 方法定义的 事件名称, 
+            // getName是执行函数，使得sName 获得子组件传递的值
+            template: `<div>
+                        <gg></gg>
+                        <dd1></dd1>
+                    </div>`,
+            components: {
+                gg: {
+                    data() {
+                        return {
+                            sName: '????'
+                        }
+                    },
+                    template: '<span>我弟弟告诉我他叫{{sName}}</span>',
+                    created(){
+                        eventbus.$on('tellgg', data=>{
+                            this.sName = data
+                        })
+                    }
+                },
+                dd1: {
+                    data() {
+                        return {
+                            myName: '小白'
+                        }
+                    },
+                    template: '<button @click="emitName">哥哥组件,我是{{myName}}</button>',
+                    methods: {
+                        // 发布函数
+                        // 需要使用$emit()方法 传递2个参数，一个是事件名称，一个是需要传递的数据
+                        emitName(){
+                            eventbus.$emit('tellgg', this.myName)
+                        }
+                    }
+                }
+            }
+            
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

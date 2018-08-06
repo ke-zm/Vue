@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <father></father>
+    </div>
+    <script>
+        Vue.component('father', {
+            // son中的 tellFather 是emit() 方法定义的 事件名称, 
+            // getName是执行函数，使得sName 获得子组件传递的值
+            template: `<div>父组件的儿子是{{sName}}
+                        <son @tellFather="getName"></son>
+                    </div>`,
+            data() {
+                return {
+                    sName: '????'
+                }
+            },
+            methods: {
+                // 接收函数
+                getName(data){
+                    this.sName = data
+                }
+            },
+            components: {
+                son: {
+                    data (){
+                        return {
+                            myName: '小白'
+                        }
+                    },
+                    template: '<button @click="emitName">子组件,我是{{myName}}</button>'
+                    ,
+                    methods:{
+                        // 发布函数
+                        // 子传父，需要使用$emit()方法 传递2个参数，一个是事件名称，一个是需要传递的数据
+                        emitName(){
+                            this.$emit('tellFather',this.myName)
+                        }
+                    }
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

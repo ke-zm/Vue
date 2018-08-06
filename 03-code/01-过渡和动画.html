@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+
+    <style>
+       .ch-enter,
+       .ch-leave-to{
+           /* 要达到的效果 */
+           padding-left: 200px;
+           opacity: 0;
+       }
+       .ch-enter-active,
+       .ch-leave-active{
+           transition: all 0.5s;
+       }
+       .ch-enter-to,
+       .ch-leave{
+           /* 再次点击后达到的效果 */
+           padding-left: 0;
+           /* opacity: 1; */
+       }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- name 默认是 v- 下面设置为 ch- -->
+        <transition name="ch">
+            <div v-if="flag">三生三世十里桃花</div>
+        </transition>
+        <!-- v-on 的点击事件，加上 插值表达式 -->
+        <button @click="flag = !flag">点击</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true
+            }
+        })
+    </script>
+</body>
+</html>

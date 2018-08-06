@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+</head>
+<body>
+    <!-- 定义在app 之外的摸板 -->
+    <template id="itemp">
+        <div>这是第三种方法</div>
+    </template>
+    <div id="app">
+        <hh-a></hh-a>
+        <index-b></index-b>
+        <index-b2></index-b2>
+        <index-c></index-c>
+    </div>
+
+    <script>
+        /* 第一种 */
+        // 返回组件构造器
+        var Inn = Vue.extend({
+            template:'<div>呜哈哈</div>'
+        })
+        // 创建组件实例 2个参数 一个名字，一个构造器  
+        Vue.component('hhA', Inn)
+        
+        /* 第二种 */
+        Vue.component('indexB',{
+            template:'<div>第二种简写</div>'
+        })
+        Vue.component('indexB2', Vue.extend({
+            template:'<div>第二种实质</div>'
+            })
+        )
+
+        /* 第三种 */
+        // 把模板放在vue 管辖范围之外定义，利用 id 进行匹配
+        Vue.component('indexC',{
+            template:'#itemp'
+        })
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+
+            }
+        })
+    </script>
+</body>
+</html>

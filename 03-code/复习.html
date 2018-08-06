@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件互传</title>
+    <script src="../01-code/vue2.js"></script>
+    <script src=""></script>
+</head>
+<body>
+    <div id="app">
+        <father></father>
+        
+    </div>
+    <!-- <script>
+        Vue.component('father',{
+            template: `<div>这是父组件，它的儿子叫{{ sName }}
+                    <son :myName="sName"></son>
+                </div>`,
+            data(){
+                return {
+                    sName: '小白'
+                }
+            },
+            components:{
+                son: {
+                    // 数组里面是字符串
+                    props: ['myName'],
+                    template: `<div>这是子组件，叫{{myName}}</div>`
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#app'
+        })
+    </script> -->
+    <!-- <script> 
+        Vue.component('father',{
+            template: `<div>这是爸爸,下面是我儿子{{ sName }}
+                    <son @tellFather="getName"></son>
+                </div>`,
+            data(){
+                return {
+                    sName: '???'
+                }
+            },
+            methods:{
+                getName(data){
+                    console.log(data);
+                    this.sName = data
+                }
+            },
+            components: {
+                son: {
+                    template:`<button @click="emitName">这是儿子{{myName}}，要把名字告诉他爸爸</button>`,
+                    data(){
+                        return {
+                            myName: '小白'
+                        }
+                    },
+                    methods:{
+                        // 发送name
+                        emitName(){
+                            this.$emit('tellFather', this.myName)
+                        }
+                    }
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app'
+        })
+    </script> -->
+    <script> 
+        // 共享实例对象
+        var eventbus = new Vue()
+
+        Vue.component('father',{
+            template: `<div>这是爸爸,下面都是我儿子<br>
+                            <son></son>
+                            <bson></bson>
+                </div>`,
+            components: {
+                son: {
+                    template:`<button @click="emitName">这是小儿子{{myName}}，下面是我哥</button>`,
+                    data(){
+                        return {
+                            myName: '小白'
+                        }
+                    },
+                    methods:{
+                        // 发送name
+                        emitName(){
+                            eventbus.$emit('tellFather', this.myName)
+                        }
+                    }
+                },
+                bson: {
+                    template:`<div>这是大儿子{{ bsonName }},上面是我弟</div>`,
+                    data(){
+                        return {
+                            bsonName: '  '
+                        }
+                    },
+                    // 这里要用钩子函数调用方法
+                    mounted(){
+                        // 第一个参数是传过来的事件名，第二个参数是一个函数，参数默认为传过来的数据
+                        eventbus.$on('tellFather',(data)=>{
+                            this.bsonName = data
+                        })
+                    }
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app'
+        })
+    </script> 
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <comlist></comlist> -->
+        <!-- <com-list></com-list> -->
+        <!-- <comList></comList> -->
+        <comlistt></comlistt>
+
+    </div>
+    <script>
+        Vue.component('comlist',{
+            template:'<p>组件</p>'
+        })
+        Vue.component('com-list',{
+            template:'<p>组件</p>'
+        })
+        Vue.component('comList',{
+            template:'<p>组件</p><p>hello</p>'
+        })
+        Vue.component('comlistt',{
+            template:'<p>组件</p><p>hellow</p>'
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+
+            }
+        })
+
+        // new Vue({
+        //     filters: {
+        //         datefmt: function (date, arg) {
+        //             return '2018-06-12'
+        //         }
+        //     }
+        // })
+    </script>
+</body>
+
+</html>

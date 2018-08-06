@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./animate.css">
+    <script src="../01-code/vue2.js"></script>
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 下面的2种属性名是固定写法 -->
+        <transition 
+            enter-active-class="animated zoomInUp"
+            leave-active-class="animated hinge"    
+        >
+            <div v-if="flag">三生三世十里桃花</div>
+        </transition>
+        <!-- v-on 的点击事件，加上 插值表达式 -->
+        <button @click="flag = !flag">点击</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true
+            }
+        })
+    </script>
+</body>
+
+</html>

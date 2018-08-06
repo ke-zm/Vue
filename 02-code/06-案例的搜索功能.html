@@ -49,7 +49,7 @@
 
         <div class="add">
             品牌名称:
-            <input type="text" placeholder="请输入搜索条件" @keyup.enter='search'>
+            <input type="text" placeholder="请输入搜索条件" v-model="searchVal">
         </div>
 
         <div>
@@ -62,17 +62,19 @@
                 </tr>
                 <!-- 记得要加 key -->
                 <!-- v-show="flag" -->
-                <tr v-for="(item,index) in list":key="index">
+                <tr v-for="(item,index) in search":key="index">
+                    <!-- <td>{{search}}</td> -->
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.ctime}}</td>
                     <td>
                         <!-- 将 item.id 作为参数传入,直接传 index 不太好 -->
                         <a href="#" @click="del(item.id)">删除1</a>
-                        <a href="#" @click="del(item)">删除2</a>
+                        <a href="#" @click="delx(item)">删除2</a>
                     </td>
                 </tr>
-                <tr v-if="list.length === 0">
+                <!-- 判断是否有数据 -->
+                <tr v-if="search.length === 0">
                     <td colspan="4">没有品牌数据</td>
                 </tr>
                 <!-- 动态生成内容tr -->
@@ -81,34 +83,34 @@
     </div>
 </body>
     <script>
-        
         var vm = new Vue({
             el: '#app',
             data: {
                 nId: '',
                 nName: '',
                 // flag: false,
-                list: []
-
+                list: [],
+                searchVal: ''
             },
             methods: {
                 add(){
                     // this.flag=true;
-                    if (this.nId == '' || this.nName == '') {
+                    if (!this.nId || !this.nName ) {
                         return;
                     }
                     this.list.push({id: this.nId , name: this.nName , ctime: new Date().toLocaleDateString()})
                     console.log(this.list);
                 },
+                /* 2类删除方法 */
                 del(idd){
                     // console.log(idd);
                     /* forEach 方法 */
-                    // this.list.forEach( (item , index)=>{
-                    //     if(item.id === idd){
-                    //         console.log(index ,item);
-                    //         this.list.splice(index, 1)
-                    //     }
-                    // })
+                    this.list.forEach( (item , index)=>{
+                        if(item.id === idd){
+                            console.log(index ,item);
+                            this.list.splice(index, 1)
+                        }
+                    })
                     
                     /* for 方法 */
                     // for(var i=0; i < this.list.length; i++){
@@ -119,15 +121,37 @@
                     //         this.list.splice(i , 1)
                     //     }
                     // }
-
+                },
+                delx(idd){                
                     /* indexOf 方法 */
                     // 此时 idd 获取的是上面的 item ，即一个数组里的一个对象
-                    
-                    this.list.splice(this.list.indexOf(idd),1)
+                    // let index = this.list.indexOf(idd)
+                    // index 的值为删除项的 下标 或 -1
+                    this.list.splice(idd,1)
                     
                 },
-                search(){
+            },
+            // 用 computed 
+            computed: {
+                search() {
+                    // var that = this
+                    // function isContainStr (value) {
+                    //   // console.log(this);
+                    //   // !==-1就表示满足条件，能够找到该字符串
+                    //   return value.name.indexOf(that.searchVal) !== -1
+                    // }
+                    // var tempList = this.list.filter(isContainStr)
+                    // return tempList
 
+                    // es6 箭头函数中的this在哪里定义就指向哪
+                    // 数组中的 filter 方法   indexOf()
+                    let arr = this.list.filter( (item) => {
+                        // toUpperCase()字符大写
+                        return item.name.toUpperCase().indexOf(this.searchVal.toUpperCase()) !== -1
+                    })
+                    // console.log(this.list, arr, 6666)
+                    return arr
+                    // return this.list.filter(value => value.name.indexOf(this.searchVal) !== -1)
                 }
             }
         })

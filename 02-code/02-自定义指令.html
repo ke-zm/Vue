@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue2.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-myfocus v-my-color=" 'blue' ">
+
+        <input type="text" v-myfocus v-my-color="color">
+    </div>
+    <script>
+        // 全局自定义指令
+        // 创建v-myfocus 自定义指令
+        Vue.directive('myfocus', {
+            // inserted 钩子函数
+            inserted(el, binding){
+                console.log();
+                el.focus()
+            },
+            // vnode更新,虚拟节点  dom元素发生改变时执行
+            update(el,binding){
+                el.focus()
+            }
+        })
+        // 另一种函数的写法，里面包含了update 
+        Vue.directive('myF',(el,binding) =>{
+            // bind update
+            el.focus()
+        })
+        // 创建v-mycolor 自定义指令
+        // 如果自定义指令是驼峰命名，则html中的元素 使用该指令是
+        // 需要改为 v-my-color 用-连接
+        Vue.directive('myColor',{
+            inserted(el,binding) {
+                console.log(binding);
+                // bindig.value 可以获取传入自定义指令中的属性的值
+                el.style.color = binding.value
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                color: 'red',
+            }
+        })
+    
+    </script>
+</body>
+</html>

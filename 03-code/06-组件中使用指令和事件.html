@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+</head>
+
+<body>
+    
+    <div id="app">
+        <index></index>
+        
+    </div>
+
+    <script>
+        
+        Vue.component('index', {
+            template: '<div>{{ msg }}<button @click="change">点击</button></div>',
+            data(){
+                return {
+                    msg: 'hello ',
+                    flag: false
+                }
+            },
+            // 方法
+            methods: {
+                change(){
+                    if (!this.flag) {
+                        this.msg = 'world'
+                        this.flag = true
+                    }else{
+                        this.msg = 'hello'
+                        this.flag = false
+                    }
+                }
+            }
+        })
+       
+        var vm = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+
+</html>

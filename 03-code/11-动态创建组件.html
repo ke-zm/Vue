@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../01-code/vue2.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li @click="current = 'index'"><a href="#">首页</a></li>
+            <li @click="current = 'pro'"><a href="#">蔬菜</a></li>
+            <li @click="current = 'pro'"><a href="#">水果</a></li>
+            <li @click="current = 'pro'"><a href="#">零食</a></li>
+        </ul>
+        <!-- 利用 component标签中的 is 属性 -->
+        <!-- 给 is 赋属性 current的值，这个属性定义在data -->
+        <compoment :is="current"></compoment>
+    </div>
+    <script>
+        Vue.component('index',{
+            template:`<div>这是首页</div>`
+        })
+         Vue.component('pro',{
+            template:`<div>这里是商品详情页</div>`
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                current:''
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>
